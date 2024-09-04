@@ -10,13 +10,32 @@
 (sb-bsd-sockets:socket-listen   my-inet-socket 8192)
 
 (setf 
+    max-single-receive-size 4096
     inet-client (sb-bsd-sockets:socket-accept my-inet-socket)
-    message-box (make-array 4096 :element-type '(unsigned-byte 8) :adjustable nil :fill-pointer nil) )
+    message-box (make-array max-single-receive-size :element-type '(unsigned-byte 8) :adjustable nil :fill-pointer nil) )
 
-(sb-bsd-sockets:socket-receive inet-client message-box 4096 :dontwait t :element-type '(unsigned-byte 8))
+(setf 
+    message-length 
+    (nth-value 1 
+        (sb-bsd-sockets:socket-receive inet-client message-box 4096 :dontwait t :element-type '(unsigned-byte 8)))
+    http-message
+    (if (eql message-length max-single-receive-size) 
+        message-box
+        (subseq message-box 0 message-length)))
 
-message-box
+http-message
 
+#|
+;next time use message-box receive from inet-client
+(setf 
+    message-length 
+    (nth-value 1 
+        (sb-bsd-sockets:socket-receive inet-client message-box 4096 :dontwait t :element-type '(unsigned-byte 8)))
+    http-message
+    (if (eql message-length max-single-receive-size) 
+        message-box
+        (subseq message-box 0 message-length)))
+|#
 #|
 wget http://127.0.0.1:8080/12345
 |#
