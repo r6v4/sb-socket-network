@@ -60,7 +60,6 @@
                 (sb-alien:free-alien copy-buffer) ))))
 
 (defun user-send (socket buffer) 
-    (declare (sb-ext:freeze-type (simple-array (unsigned-byte 8)) buffer))
     (let* ( (fd (socket-fd socket))
             (length (length buffer))
             (len
