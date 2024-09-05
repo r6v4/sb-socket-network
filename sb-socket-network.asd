@@ -3,7 +3,7 @@
     :description "use sbcl socket to make fast network"
     :author "r6v4@pm.me"
     :version 1.0
-    :depends-on ("cffi" "sb-bsd-sockets") 
+    :depends-on ("cffi") 
     :serial t
     :components (
         (:static-file "LICENSE")
