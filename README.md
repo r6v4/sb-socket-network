@@ -50,7 +50,7 @@ sbcl
     http-message 
     (subseq message-box 0 message-length) )
 ;message-box can be reused no need to make array again
-;and use (search #(13 10 13 10) message-box :start2 0 :end2 message-length) to find short vector
+;use (search #(13 10 13 10) message-box :start2 0 :end2 message-length) to find short vector
 ;see cl-http-message(v2) to see how to parse http message 
 #|
 #(71 69 84 32 47 49 50 51 52 53 63 97 61 49 38 38 98 61 50 38 38 99 61 51 38 38
