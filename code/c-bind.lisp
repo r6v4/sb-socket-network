@@ -27,7 +27,7 @@
             (the-number (if the-vector  (parse-integer (map 'string #'code-char the-vector) :junk-allowed t) nil)) )
         (if (numberp the-number)
             (cond
-                ((< the-number 5)
+                ((<= the-number 5)
                     5 )
                 (t 
                     (1- the-number) )))))
