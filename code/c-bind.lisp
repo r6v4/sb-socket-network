@@ -1,5 +1,12 @@
 (in-package :sb-socket-network)
 
+(declaim
+    (optimize
+        (speed              3)
+        (space              1)
+        (debug              0)
+        (compilation-speed  0)))
+
 (cffi:defcfun (c-setsockopt "setsockopt") :int
     (fd     :int)
     (type   :int)
