@@ -4,6 +4,7 @@
 use sbcl socket to make fast network
 
 ## Project structure
+```text
 sb-socket-network/                     #software name.
     sb-socket-network.asd              #define project.
     package.lisp                       #define package and export symbol.
@@ -13,3 +14,4 @@ sb-socket-network/                     #software name.
     test/                              #test part.
         example-1.lisp                 #simple example of sbcl socket.
         example-2.lisp                 #example of user function. 
+```
