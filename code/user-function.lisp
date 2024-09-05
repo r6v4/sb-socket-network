@@ -1,5 +1,7 @@
 (in-package :sb-socket-network)
 
+(require :sb-bsd-sockets)
+
 (defun socket-fd (client-socket)
     (sb-bsd-sockets::socket-file-descriptor client-socket) )
 
