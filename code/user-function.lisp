@@ -13,17 +13,17 @@
 
 (defun make-server-socket (address-vector port-number vcpu-number)
     (let (  (the-socket (make-instance 'sb-bsd-sockets:inet-socket :type :stream :protocol :tcp)) )
-        (setf (sb-bsd-sockets:sockopt-reuse-address the-socket) t)
-        (setf (sb-bsd-sockets:sockopt-reuse-port    the-socket) t)
-        (setf (sb-bsd-sockets:sockopt-keep-alive    the-socket) t)
-        (setf (sb-bsd-sockets:sockopt-tcp-nodelay   the-socket) t)
-        (setf (sb-bsd-sockets::sockopt-receive-low-water the-socket) 5)
-        (c-setsockopt
-            (socket-fd the-socket)
-            1
-            49
-            (sb-alien:alien-sap (sb-alien:make-alien sb-alien:int vcpu-number))
-            4)
+            (setf (sb-bsd-sockets:sockopt-reuse-address the-socket) t)
+            (setf (sb-bsd-sockets:sockopt-reuse-port    the-socket) t)
+            (setf (sb-bsd-sockets:sockopt-keep-alive    the-socket) t)
+            (setf (sb-bsd-sockets:sockopt-tcp-nodelay   the-socket) t)
+            (setf (sb-bsd-sockets::sockopt-receive-low-water the-socket) 5)
+            (c-setsockopt
+                (socket-fd the-socket)
+                1
+                49
+                (sb-alien:alien-sap (sb-alien:make-alien sb-alien:int vcpu-number))
+                4)
         (sb-bsd-sockets:socket-bind     the-socket address-vector port-number)
         (sb-bsd-sockets:socket-listen   the-socket (get-backlog-number))
         the-socket))
@@ -54,7 +54,7 @@
                 (sb-alien:free-alien copy-buffer) ))))
 
 (defun user-send (socket buffer) 
-    (declare (sb-ext:freeze-type (SIMPLE-ARRAY (UNSIGNED-BYTE 8)) buffer))
+    (declare (sb-ext:freeze-type (simple-array (unsigned-byte 8)) buffer))
     (let* ( (fd (socket-fd socket))
             (length (length buffer))
             (len
