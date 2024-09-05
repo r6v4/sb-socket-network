@@ -77,12 +77,22 @@ sbcl
   116 99 104 45 85 115 101 114 58 32 63 49 13 10 80 114 105 111 114 105 116 121
   58 32 117 61 48 44 32 105 13 10 13 10)
 |#
-(sb-socket-network:socket-fd client-socket)
 
-(sb-socket-network:socket-can-write-check client-socket)
+(sb-socket-network:socket-fd client-socket) ;5
+
+(sb-socket-network:socket-can-write-check client-socket) ;T
+
 ```
 
 ## API
 ```text
-
+int socket-fd (socket client-socket);
+int socket-buffer-size (socket client-socket);
+int buffer-can-use-size (socket client-socket);
+bool socket-can-write-check (socket client-socket);
+socket make-server-socket (array address-vector, number port-number, number vcpu-number);
+socket make-client-socket (socket server-socket);
+number user-recv (socket client-socket, array message-buffer, number buffer-length);
+int user-send (socket client-socket, array message-buffer);
+bool user-close (socket client-socket);
 ```
