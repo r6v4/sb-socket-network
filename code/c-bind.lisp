@@ -13,7 +13,7 @@
     (opt    :int)
     (vcpu   :pointer)
     (size   :int) )
-
+#|
 (defun get-backlog-number ()
     (let* ( (the-octets 
                 (or
@@ -31,3 +31,4 @@
                     5 )
                 (t 
                     (1- the-number) )))))
+|#
