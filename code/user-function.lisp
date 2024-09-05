@@ -29,7 +29,7 @@
             (sb-alien:alien-sap (sb-alien:make-alien sb-alien:int vcpu-number))
             4)
         (sb-bsd-sockets:socket-bind     the-socket address-vector port-number)
-        (sb-bsd-sockets:socket-listen   the-socket (get-backlog-number))
+        (sb-bsd-sockets:socket-listen   the-socket 2048)
         the-socket ))
 
 (defun make-client-socket (server-socket)
