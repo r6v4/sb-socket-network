@@ -11,6 +11,11 @@
         (sb-unix:unix-ioctl (socket-fd client-socket) 21521 (sb-alien:alien-sap (sb-alien:addr result)))
         (- (socket-buffer-size client-socket) result) ))
 
+(defun socket-can-write-check (client-socket)
+    (if (> (buffer-can-use-size client-socket) 2048)
+        t
+        nil ))
+
 (defun make-server-socket (address-vector port-number vcpu-number)
     (let (  (the-socket (make-instance 'sb-bsd-sockets:inet-socket :type :stream :protocol :tcp)) )
             (setf (sb-bsd-sockets:sockopt-reuse-address the-socket) t)
