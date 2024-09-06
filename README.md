@@ -51,7 +51,11 @@ sbcl
     (subseq message-box 0 message-length) )
 ;message-box can be reused no need to make array again
 ;use (search #(13 10 13 10) message-box :start2 0 :end2 message-length) to find short vector
-;see cl-http-message(v2) to see how to parse http message 
+;see cl-http-message(v2) to see how to parse http message
+;the number of function user-recv and use-send is had receive or send message length
+;if message length is nil that is no message to receive in socket buffer
+;or send fail because socket buffer is full, need to wait for enough space.
+;the input and output of this package are non-blocking.
 #|
 #(71 69 84 32 47 49 50 51 52 53 63 97 61 49 38 38 98 61 50 38 38 99 61 51 38 38
   100 61 52 38 38 101 61 53 32 72 84 84 80 47 49 46 49 13 10 72 111 115 116 58
