@@ -1,7 +1,7 @@
 # sb-socket-network
 
 ## Project description
-use sbcl socket to make fast network
+use sbcl socket non-blocking io to make fast network.
 
 ## Project structure
 ```text
