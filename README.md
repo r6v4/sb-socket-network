@@ -95,7 +95,7 @@ int buffer-can-use-size (socket client-socket);
 bool socket-can-write-check (socket client-socket);
 socket make-server-socket (array address-vector, number port-number, number vcpu-number);
 socket make-client-socket (socket server-socket);
-number user-recv (socket client-socket, array message-buffer, number buffer-length);
-int user-send (socket client-socket, array message-buffer);
+(or int bool) user-recv (socket client-socket, array message-buffer, number buffer-length);
+(or int bool) user-send (socket client-socket, array message-buffer);
 bool user-close (socket client-socket);
 ```
