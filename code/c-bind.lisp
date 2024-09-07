@@ -13,14 +13,14 @@
     (opt    :int)
     (vcpu   :pointer)
     (size   :int) )
-#|
+
 (defun get-backlog-number ()
     (let* ( (the-octets 
                 (or
                     (ignore-errors (map '(vector (unsigned-byte 8)) #'char-code
-                        (with-output-to-string (a) (run-program "/sbin/sysctl" (list "net.core.somaxconn") :wait t :output a)) ))
+                        (with-output-to-string (a) (sb-ext:run-program "/sbin/sysctl" (list "net.core.somaxconn") :wait t :output a)) ))
                     (ignore-errors (map '(vector (unsigned-byte 8)) #'char-code
-                        (with-output-to-string (a) (run-program "/usr/sbin/sysctl" (list "net.core.somaxconn") :wait t :output a)) ))))
+                        (with-output-to-string (a) (sb-ext:run-program "/usr/sbin/sysctl" (list "net.core.somaxconn") :wait t :output a)) ))))
             (the-start  (if the-octets  (search #(32 61 32) the-octets) nil))
             (the-end    (if the-start   (ignore-errors (search #(10) the-octets :start2 the-start)) nil))
             (the-vector (if the-end     (ignore-errors (subseq the-octets (+ 3 the-start) the-end)) nil))
@@ -31,4 +31,3 @@
                     5 )
                 (t 
                     (1- the-number) )))))
-|#
