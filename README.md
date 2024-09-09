@@ -51,8 +51,8 @@ sbcl
     client-socket (sb-socket-network:make-client-socket server-socket) )
 (setf
     ;recv and send of socket in this package are non-blocking.
-    ;the number of function user-recv and use-send is had receive or send message length
-    ;if message length is nil that is no message to receive in socket buffer
+    ;the number of function user-recv and use-send returns is had receive or send message length
+    ;if return value (message length) is nil that is no message to receive in socket buffer
     ;or send fail because socket buffer is full, need to wait for enough space.
     message-length (sb-socket-network:user-recv client-socket message-box max-single-receive-size)
     http-message (subseq message-box 0 message-length) )
@@ -86,6 +86,10 @@ sbcl
 |#
 ;use (search #(13 10 13 10) message-box :start2 0 :end2 message-length) to find short vector
 ;see cl-http-message(v2) to see how to parse http message
+
+;use message-box to recv message, if no message in socket recv buffer will return nil
+(setf message-length (sb-socket-network:user-recv client-socket message-box max-single-receive-size))
+;NIL
 
 ;socket fd
 (sb-socket-network:socket-fd client-socket)
