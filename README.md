@@ -84,8 +84,10 @@ sbcl
   116 99 104 45 85 115 101 114 58 32 63 49 13 10 80 114 105 111 114 105 116 121
   58 32 117 61 48 44 32 105 13 10 13 10)
 |#
+;no need to subseq message box for all message
 ;use (search #(13 10 13 10) message-box :start2 0 :end2 message-length) to find short vector
 ;see cl-http-message(v2) to see how to parse http message
+;(cl-http-message:vector-to-list message-box message-length)
 
 ;use message-box to recv message, if no message in socket recv buffer will return nil
 (setf message-length (sb-socket-network:user-recv client-socket message-box max-single-receive-size))
