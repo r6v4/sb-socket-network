@@ -36,26 +36,26 @@ sbcl
 
 ## Project usage
 ```common-lisp
-(setf 
-    max-single-receive-size 
-    4096
-    server-socket 
-    (sb-socket-network:make-server-socket (sb-bsd-sockets:make-inet-address "127.0.0.1") 8080 0)
-    client-socket 
-    (sb-socket-network:make-client-socket server-socket)
-    message-box
-    (make-array max-single-receive-size :element-type '(unsigned-byte 8) :adjustable nil :fill-pointer nil)
-    message-length
-    (sb-socket-network:user-recv client-socket message-box max-single-receive-size)
-    http-message 
-    (subseq message-box 0 message-length) )
-;message-box can be reused no need to make array again
-;use (search #(13 10 13 10) message-box :start2 0 :end2 message-length) to find short vector
-;see cl-http-message(v2) to see how to parse http message
-;the number of function user-recv and use-send is had receive or send message length
-;if message length is nil that is no message to receive in socket buffer
-;or send fail because socket buffer is full, need to wait for enough space.
-;the input and output of this package are non-blocking.
+(setf
+    ;recv message-box size
+    max-single-receive-size 4096
+    address-vector (sb-bsd-sockets:make-inet-address "127.0.0.1")
+    port-number 8080
+    vcpu-number 0
+    ;create server socket
+    server-socket (sb-socket-network:make-server-socket address-vector port-number vcpu-number) )
+(setf
+    ;message-box can be reused no need to make array again
+    message-box (make-array max-single-receive-size :element-type '(unsigned-byte 8) :adjustable nil :fill-pointer nil)
+    ;accept client socket
+    client-socket (sb-socket-network:make-client-socket server-socket) )
+(setf
+    ;recv and send of socket in this package are non-blocking.
+    ;the number of function user-recv and use-send is had receive or send message length
+    ;if message length is nil that is no message to receive in socket buffer
+    ;or send fail because socket buffer is full, need to wait for enough space.
+    message-length (sb-socket-network:user-recv client-socket message-box max-single-receive-size)
+    http-message (subseq message-box 0 message-length) )
 #|
 #(71 69 84 32 47 49 50 51 52 53 63 97 61 49 38 38 98 61 50 38 38 99 61 51 38 38
   100 61 52 38 38 101 61 53 32 72 84 84 80 47 49 46 49 13 10 72 111 115 116 58
@@ -84,10 +84,16 @@ sbcl
   116 99 104 45 85 115 101 114 58 32 63 49 13 10 80 114 105 111 114 105 116 121
   58 32 117 61 48 44 32 105 13 10 13 10)
 |#
+;use (search #(13 10 13 10) message-box :start2 0 :end2 message-length) to find short vector
+;see cl-http-message(v2) to see how to parse http message
 
-(sb-socket-network:socket-fd client-socket) ;5
+;socket fd
+(sb-socket-network:socket-fd client-socket)
+;5
 
-(sb-socket-network:socket-can-write-check client-socket) ;T
+;check if socket send buffer space more than 2kb
+(sb-socket-network:socket-can-write-check client-socket)
+;T
 
 ```
 
